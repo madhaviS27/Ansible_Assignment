@@ -1,0 +1,22 @@
+-> ansible-vault create sensitive.yaml
+
+-> cat sensitive.yaml
+##################
+- hosts:linux
+  vars:
+    x:45
+  vars_prompt:
+    - name: user_name
+      prompt:Enter the username
+      private:no
+  tasks:
+  - name: Create sensitive text
+    copy:
+      content:"This file contain sensitive information"
+      dest:/home/ansible/sensitive.txt
+  - debug:
+    msg: "The username is {{user_name}}"
+ansible-vault encrypt sensitive.yaml
+
+-> linux
+-> cat /etc/passwd
